@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MACD & RSI Signals</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>MACD & RSI Buy/Sell Signals</h1>
+    <p>Display MACD and RSI signals here.</p>
+    <canvas id="macdRsiChart" width="600" height="250"></canvas>
+    <script>
+      fetch('/api/data?coin_id=bitcoin&days=60')
+      .then(res => res.json())
+      .then(data => {
+        const labels = data.historical_data.map(row => new Date(row.timestamp).toLocaleDateString());
+        const rsi = Object.values(data.signals.rsi || {});
+        const macd = Object.values(data.signals.macd || {});
+        new Chart(document.getElementById('macdRsiChart').getContext('2d'), {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [
+              { label: 'RSI', data: rsi, borderColor: 'teal', fill: false },
+              { label: 'MACD', data: macd, borderColor: 'purple', fill: false }
+            ]
+          }
+        });
+      });
+    </script>
+</body>
+</html>
