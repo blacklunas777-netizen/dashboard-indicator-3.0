@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crypto Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Cryptocurrency Trading Signal Analysis</h1>
+    <p>Welcome to the main dashboard. Navigate to other pages for indicators.</p>
+    <canvas id="priceChart" width="600" height="250"></canvas>
+    <script>
+      // Fetch and show price chart for Bitcoin
+      fetch('/api/data?coin_id=bitcoin&days=30')
+      .then(res => res.json())
+      .then(data => {
+        const labels = data.historical_data.map(row => new Date(row.timestamp).toLocaleDateString());
+        const prices = data.historical_data.map(row => row.close);
+        new Chart(document.getElementById('priceChart').getContext('2d'), {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'Bitcoin Close Price (USD)',
+              data: prices,
+              borderColor: 'blue',
+              backgroundColor: 'rgba(0,0,255,0.1)',
+              fill: true,
+              tension: 0.1,
+            }]
+          }
+        });
+      });
+    </script>
+</body>
+</html>
