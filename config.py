@@ -23,3 +23,11 @@ class Config:
         'CryptoCompare',
         'CoinMarketCap'
     ]
+
+    # Flask app settings
+    HOST = os.getenv('HOST', '0.0.0.0')
+    PORT = int(os.getenv('PORT', 5000))
+    DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
+
+    # Unified cache TTL for app.py
+    CACHE_TTL = CACHE_TTL_SECONDS
