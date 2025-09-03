@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Volatility Gauges</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Volatility Gauges</h1>
+    <p>Display volatility indicators here.</p>
+    <canvas id="bollingerChart" width="600" height="250"></canvas>
+    <script>
+      fetch('/api/data?coin_id=bitcoin&days=30')
+      .then(res => res.json())
+      .then(data => {
+        const labels = data.historical_data.map(row => new Date(row.timestamp).toLocaleDateString());
+        const prices = data.historical_data.map(row => row.close);
+        const upper = Object.values(data.signals.upper_band || {});
+        const lower = Object.values(data.signals.lower_band || {});
+        new Chart(document.getElementById('bollingerChart').getContext('2d'), {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [
+              { label: 'Close Price', data: prices, borderColor: 'blue', fill: false },
+              { label: 'Upper Band', data: upper, borderColor: 'green', fill: false },
+              { label: 'Lower Band', data: lower, borderColor: 'red', fill: false }
+            ]
+          }
+        });
+      });
+    </script>
+</body>
+</html>
