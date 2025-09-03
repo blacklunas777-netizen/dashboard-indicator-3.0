@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Core Mix Indicators</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Core Mix Indicators</h1>
+    <p>Display core indicators here.</p>
+    <canvas id="smaChart" width="600" height="250"></canvas>
+    <script>
+      fetch('/api/data?coin_id=bitcoin&days=30')
+      .then(res => res.json())
+      .then(data => {
+        const labels = data.historical_data.map(row => new Date(row.timestamp).toLocaleDateString());
+        const prices = data.historical_data.map(row => row.close);
+        const sma20 = Object.values(data.signals.sma20 || {});
+        new Chart(document.getElementById('smaChart').getContext('2d'), {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [
+              { label: 'Close Price', data: prices, borderColor: 'blue', fill: false },
+              { label: 'SMA 20', data: sma20, borderColor: 'orange', fill: false }
+            ]
+          }
+        });
+      });
+    </script>
+</body>
+</html>
