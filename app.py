@@ -11,7 +11,7 @@ from datetime import datetime
 import os
 import secrets
 
-from config import AppConfig
+from config import Config as AppConfig
 from services.market_data_service import MarketDataService
 from services.signal_service import SignalService
 from services.cache_service import CacheService
