@@ -1,6 +1,6 @@
 flask
 flask-cors
 pandas
-pycoingecko
 cachetools
+requests
 gunicorn
