@@ -4,7 +4,7 @@ This is a Flask-based web application for analyzing cryptocurrency trading signa
 It provides API endpoints for fetching market data, calculating indicators (RSI, MACD, SMA, Bollinger Bands), and serving HTML pages for visualization with interactive charts.
 
 ## Features
-- Fetches daily OHLCV data from CoinGecko.
+- Fetches daily OHLCV data from CoinGecko and many more 
 - Calculates standard trading indicators without custom scaling.
 - Supports caching for performance.
 - API endpoints for data, coins, exchanges, volume, refresh, and health checks.
