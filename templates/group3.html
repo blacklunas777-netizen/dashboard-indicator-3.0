@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Momentum & Trend</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Momentum & Trend Indicators</h1>
+    <p>Display momentum indicators here.</p>
+    <canvas id="macdChart" width="600" height="250"></canvas>
+    <script>
+      fetch('/api/data?coin_id=bitcoin&days=60')
+      .then(res => res.json())
+      .then(data => {
+        const labels = data.historical_data.map(row => new Date(row.timestamp).toLocaleDateString());
+        const macd = Object.values(data.signals.macd || {});
+        const signal = Object.values(data.signals.signal_line || {});
+        const hist = Object.values(data.signals.histogram || {});
+        new Chart(document.getElementById('macdChart').getContext('2d'), {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [
+              { label: 'MACD', data: macd, borderColor: 'purple', fill: false },
+              { label: 'Signal Line', data: signal, borderColor: 'orange', fill: false },
+              { label: 'Histogram', data: hist, borderColor: 'grey', fill: false }
+            ]
+          }
+        });
+      });
+    </script>
+</body>
+</html>
